@@ -16,9 +16,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let windowsScene = (scene as? UIWindowScene) else { return }
         
+        let navigationController = UINavigationController()
+        navigationController.setViewControllers([RemindersViewController()], animated: true)
+        
         window = UIWindow(frame: windowsScene.coordinateSpace.bounds)
         window?.windowScene = windowsScene
-        self.window!.rootViewController = RemindersViewController()
+        self.window!.rootViewController = navigationController
         self.window!.makeKeyAndVisible()
     }
 
