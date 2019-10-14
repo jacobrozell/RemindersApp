@@ -10,10 +10,11 @@ import SnapKit
 import UIKit
 
 class RemindersViewController: UIViewController {
-    static let version = "1.1"
 
+    let format = "MMM dd, yyyy"
+    
     let tableView = UITableView()
-    var tableViewData: [ReminderItem] = []
+    var reminders: [ReminderItem] = []
     
 
     lazy var textSize: Int = UserDefaults.standard.object(forKey: "savedFontSize") as? Int ?? 18
@@ -31,7 +32,7 @@ class RemindersViewController: UIViewController {
         
         title = "Reminders"
         
-        navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(this)), animated: true)
+        navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addReminder)), animated: true)
 
         view.addSubview(tableView)
         setConstraints()
@@ -44,9 +45,9 @@ class RemindersViewController: UIViewController {
         tableView.estimatedRowHeight = 64
         tableView.tableFooterView = UIView()
         
-        tableViewData.append(ReminderItem(title: "Test!", reminderDate: "DEEZ NUTZZZZZ", description: "sdfsdfsdfsdfsdfbghjsdfhbsdfhdsf hksffhkbdsfhdfhd hhhh hhh hh hb hbh bhb ghb hbc bdcvhji bdvihj bdvj bdcvj bndfvju bndfovu bndfiouv ibndoufvbn odufvbnodufvbn dioufv bdiufbv idufbv diufb "))
+        reminders.append(ReminderItem(title: "Test!", reminderDate: "DEEZ NUTZZZZZ", description: "sdfsdfsdfsdfsdfbghjsdfhbsdfhdsf hksffhkbdsfhdfhd hhhh hhh hh hb hbh bhb ghb hbc bdcvhji bdvihj bdvj bdcvj bndfvju bndfovu bndfiouv ibndoufvbn odufvbnodufvbn dioufv bdiufbv idufbv diufb "))
         
-        tableViewData.append(ReminderItem(title: "Test2", reminderDate: "Here is another DEEZ NUTZ", description: "sdfsdfsdfsdfsdfbghjsdfhbsdfhdsf hksffhkbdsfhdfhd hhhh hhh hh hb hbh bhb ghb hbc bdcvhji bdvihj bdvj bdcvj bndfvju bndfovu bndfiouv ibndoufvbn odufvbnodufvbn dioufv bdiufbv idufbv diufb "))
+        reminders.append(ReminderItem(title: "Test2", reminderDate: "Here is another DEEZ NUTZ", description: "sdfsdfsdfsdfsdfbghjsdfhbsdfhdsf hksffhkbdsfhdfhd hhhh hhh hh hb hbh bhb ghb hbc bdcvhji bdvihj bdvj bdcvj bndfvju bndfovu bndfiouv ibndoufvbn odufvbnodufvbn dioufv bdiufbv idufbv diufb "))
     }
 
     func setConstraints() {
@@ -55,24 +56,42 @@ class RemindersViewController: UIViewController {
         }
     }
     
-    @objc func this() {
+    @objc func addReminder() {
         let alertController = UIAlertController(title: "Alert", message: "This is an alert.", preferredStyle: .alert)
+        
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Reminder Title"
+        }
+        
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Reminder Description"
+        }
                 
-        let action1 = UIAlertAction(title: "Default", style: .default) { (action:UIAlertAction) in
-            print("You've pressed default");
+        let createAction = UIAlertAction(title: "Create", style: .default) { (action:UIAlertAction) in
+            guard let title = alertController.textFields![0].text, let desc = alertController.textFields![1].text else { return }
+            
+            let date = Date().string(with: self.format)
+            
+            let item = ReminderItem(title: title, reminderDate: date, description: desc)
+            
+            self.reminders.append(item)
+            
+            self.dismiss(animated: true) {
+                self.tableView.reloadData()
+            }
         }
-
-        let action2 = UIAlertAction(title: "Cancel", style: .cancel) { (action:UIAlertAction) in
-            print("You've pressed cancel");
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { (action:UIAlertAction) in
+            self.dismiss(animated: true) {
+                self.tableView.reloadData()
+            }
         }
+        
 
-        let action3 = UIAlertAction(title: "Destructive", style: .destructive) { (action:UIAlertAction) in
-            print("You've pressed the destructive");
-        }
 
-        alertController.addAction(action1)
-        alertController.addAction(action2)
-        alertController.addAction(action3)
+
+        alertController.addAction(createAction)
+        alertController.addAction(cancelAction)
         self.present(alertController, animated: true, completion: nil)
     }
 }
@@ -80,11 +99,11 @@ class RemindersViewController: UIViewController {
 extension RemindersViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableViewData.count
+        return reminders.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = tableViewData[indexPath.row]
+        let item = reminders[indexPath.row]
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: RemindersCardCell.reuseID, for: indexPath) as? RemindersCardCell else { return UITableViewCell() }
         
