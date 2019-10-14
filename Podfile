@@ -8,5 +8,6 @@ target 'RemindersApp' do
   # Pods for RemindersApp
   pod 'SnapKit'
   pod 'ProgressHUD'
+  pod 'STPopup'
 
 end

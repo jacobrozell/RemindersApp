@@ -1,3 +1,4 @@
 ${PODS_ROOT}/Target Support Files/Pods-RemindersApp/Pods-RemindersApp-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/ProgressHUD/ProgressHUD.framework
+${BUILT_PRODUCTS_DIR}/STPopup/STPopup.framework
 ${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework

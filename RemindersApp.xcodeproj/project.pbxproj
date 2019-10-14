@@ -12,10 +12,11 @@
 		0B15BB95235500F0006D616C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B15BB94235500F0006D616C /* Assets.xcassets */; };
 		0B15BB98235500F0006D616C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B15BB96235500F0006D616C /* LaunchScreen.storyboard */; };
 		0B15BBA323550203006D616C /* ReminderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B15BB9F23550202006D616C /* ReminderItem.swift */; };
-		0B15BBA423550203006D616C /* ReminderParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B15BBA023550202006D616C /* ReminderParser.swift */; };
 		0B15BBA523550203006D616C /* RemindersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B15BBA123550203006D616C /* RemindersViewController.swift */; };
 		0B15BBA623550203006D616C /* ReminderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B15BBA223550203006D616C /* ReminderCell.swift */; };
 		0B15BBA823550240006D616C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B15BBA723550240006D616C /* Extensions.swift */; };
+		3688F52D23552AF0007874B3 /* ReminderPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3688F52C23552AF0007874B3 /* ReminderPopupView.swift */; };
+		3688F53323552F1B007874B3 /* UIStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3688F53223552F1B007874B3 /* UIStyle.swift */; };
 		A7A8BCB84A7C6F38D7BDDF0D /* Pods_RemindersApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96EF7D7626CFF62C856769F5 /* Pods_RemindersApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -27,10 +28,11 @@
 		0B15BB97235500F0006D616C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0B15BB99235500F0006D616C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0B15BB9F23550202006D616C /* ReminderItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderItem.swift; sourceTree = "<group>"; };
-		0B15BBA023550202006D616C /* ReminderParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderParser.swift; sourceTree = "<group>"; };
 		0B15BBA123550203006D616C /* RemindersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemindersViewController.swift; sourceTree = "<group>"; };
 		0B15BBA223550203006D616C /* ReminderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderCell.swift; sourceTree = "<group>"; };
 		0B15BBA723550240006D616C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		3688F52C23552AF0007874B3 /* ReminderPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderPopupView.swift; sourceTree = "<group>"; };
+		3688F53223552F1B007874B3 /* UIStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStyle.swift; sourceTree = "<group>"; };
 		86A1545C3F37B9820655825F /* Pods-RemindersApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RemindersApp.release.xcconfig"; path = "Target Support Files/Pods-RemindersApp/Pods-RemindersApp.release.xcconfig"; sourceTree = "<group>"; };
 		96EF7D7626CFF62C856769F5 /* Pods_RemindersApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RemindersApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E38D801E04097FBFDA0123A9 /* Pods-RemindersApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RemindersApp.debug.xcconfig"; path = "Target Support Files/Pods-RemindersApp/Pods-RemindersApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -69,18 +71,51 @@
 		0B15BB8A235500EE006D616C /* RemindersApp */ = {
 			isa = PBXGroup;
 			children = (
+				0B15BB99235500F0006D616C /* Info.plist */,
 				0B15BB8B235500EE006D616C /* AppDelegate.swift */,
 				0B15BB8D235500EE006D616C /* SceneDelegate.swift */,
-				0B15BBA723550240006D616C /* Extensions.swift */,
-				0B15BBA223550203006D616C /* ReminderCell.swift */,
-				0B15BB9F23550202006D616C /* ReminderItem.swift */,
-				0B15BBA023550202006D616C /* ReminderParser.swift */,
-				0B15BBA123550203006D616C /* RemindersViewController.swift */,
 				0B15BB94235500F0006D616C /* Assets.xcassets */,
-				0B15BB96235500F0006D616C /* LaunchScreen.storyboard */,
-				0B15BB99235500F0006D616C /* Info.plist */,
+				3688F53023552EB6007874B3 /* Model */,
+				3688F52E23552E78007874B3 /* View */,
+				3688F53123552EC5007874B3 /* ViewController */,
+				3688F52F23552E95007874B3 /* Util */,
 			);
 			path = RemindersApp;
+			sourceTree = "<group>";
+		};
+		3688F52E23552E78007874B3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0B15BBA223550203006D616C /* ReminderCell.swift */,
+				3688F52C23552AF0007874B3 /* ReminderPopupView.swift */,
+				0B15BB96235500F0006D616C /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3688F52F23552E95007874B3 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				0B15BBA723550240006D616C /* Extensions.swift */,
+				3688F53223552F1B007874B3 /* UIStyle.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		3688F53023552EB6007874B3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0B15BB9F23550202006D616C /* ReminderItem.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3688F53123552EC5007874B3 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0B15BBA123550203006D616C /* RemindersViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		AC72404E7A45FEFB386ADE06 /* Pods */ = {
@@ -215,12 +250,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				0B15BB8C235500EE006D616C /* AppDelegate.swift in Sources */,
-				0B15BBA423550203006D616C /* ReminderParser.swift in Sources */,
 				0B15BBA623550203006D616C /* ReminderCell.swift in Sources */,
 				0B15BBA323550203006D616C /* ReminderItem.swift in Sources */,
 				0B15BB8E235500EE006D616C /* SceneDelegate.swift in Sources */,
 				0B15BBA523550203006D616C /* RemindersViewController.swift in Sources */,
 				0B15BBA823550240006D616C /* Extensions.swift in Sources */,
+				3688F52D23552AF0007874B3 /* ReminderPopupView.swift in Sources */,
+				3688F53323552F1B007874B3 /* UIStyle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
