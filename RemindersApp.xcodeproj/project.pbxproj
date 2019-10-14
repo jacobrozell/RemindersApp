@@ -71,6 +71,7 @@
 			children = (
 				0B15BB8B235500EE006D616C /* AppDelegate.swift */,
 				0B15BB8D235500EE006D616C /* SceneDelegate.swift */,
+				0B15BBA723550240006D616C /* Extensions.swift */,
 				0B15BBA223550203006D616C /* ReminderCell.swift */,
 				0B15BB9F23550202006D616C /* ReminderItem.swift */,
 				0B15BBA023550202006D616C /* ReminderParser.swift */,
@@ -78,7 +79,6 @@
 				0B15BB94235500F0006D616C /* Assets.xcassets */,
 				0B15BB96235500F0006D616C /* LaunchScreen.storyboard */,
 				0B15BB99235500F0006D616C /* Info.plist */,
-				0B15BBA723550240006D616C /* Extensions.swift */,
 			);
 			path = RemindersApp;
 			sourceTree = "<group>";

@@ -25,6 +25,8 @@ class RemindersCardCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         statusView.backgroundColor = defaultColor
+        statusView.layer.cornerRadius = 4.0
+        statusView.clipsToBounds = true
     
         cardView.backgroundColor = .white
         cardView.layer.cornerRadius = 8.0
@@ -35,6 +37,8 @@ class RemindersCardCell: UITableViewCell {
         cardView.clipsToBounds = true
         
         titleLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
+        
+        showInCalendarButton.backgroundColor = defaultColor
         
         descLabel.numberOfLines = 4
         descLabel.textAlignment = .left
@@ -59,12 +63,14 @@ class RemindersCardCell: UITableViewCell {
         }
         
         statusView.snp.makeConstraints { (make) in
-            make.width.equalTo(15)
-            make.top.bottom.left.equalToSuperview()
+            make.width.equalTo(5)
+            make.left.equalToSuperview().offset(4)
+            make.top.equalTo(cardView.snp.top).offset(4)
+            make.bottom.equalTo(cardView.snp.bottom).offset(-4)
         }
         
         cardView.snp.makeConstraints { (make) in
-            make.left.equalTo(statusView.snp.right).offset(8)
+            make.left.equalTo(statusView.snp.right)
             make.top.equalToSuperview().offset(12)
             make.right.equalToSuperview().offset(-12)
             make.bottom.equalToSuperview().offset(-12)
