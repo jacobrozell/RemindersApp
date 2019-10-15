@@ -9,30 +9,34 @@
 import Foundation
 import UIKit
 
-typealias Hex = String
+
+
+enum UIMode {
+    case Dark
+    case Light
+}
 
 enum UIStyle {
-    enum LightMode: Hex {
-        typealias RawValue = String
-        
-        case white = "#ffffff"
-        case darkBlue = "#123456"
-        case black = "#000000"
-        
-        func toColor() -> UIColor {
-            return UIColor(hex: self.rawValue, andAlpha: 1.0)
-        }
-    }
     
-    enum DarkMode: Hex {
-        typealias RawValue = String
-        
-        case white = "#ffffff"
-        case darkBlue = "#123456"
-        case black = "#000000"
-        
-        func toColor() -> UIColor {
-            return UIColor(hex: self.rawValue, andAlpha: 1.0)
-        }
-    }
+    // Colors
+    public static let navTintColor = UIColor(hex: "#0B2027", andAlpha: 1.0)
+    public static let navBarTintColor = UIColor(hex: "#40798C", andAlpha: 1.0)
+    public static let navBarTextColor = UIColor(hex: "#CFD7C7", andAlpha: 1.0)
+    
+    public static let backgroundColor = UIColor(hex: "#020201", andAlpha: 1.0)
+    
+    public static let cellTextColor = UIColor(hex: "#CFD7C7", andAlpha: 1.0)
+    public static let cellSpaceBackgroundColor = UIColor(hex: "#020201", andAlpha: 1.0)
+    public static let cellBackgroundColor = UIColor(hex: "#40798C", andAlpha: 1.0)
+    
+    public static let separatorColor = UIColor(hex: "#AAAAAA", andAlpha: 0.6)
+    
+    public static let popupBackgroundColor = UIColor.white
+    public static let popupTextColor = UIColor(hex: "#CFD7C7", andAlpha: 1.0)
+    
+    public static let format = "MMM dd, yyyy"
+    
 }
+
+// this is how i want to grab the colors
+//this.backgroundColor = UISTyle.mode.primary

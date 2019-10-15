@@ -35,7 +35,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "9BC6DCEA-DA6B-4E47-9F9E-6C381DF40EB6"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RemindersApp/AppDelegate.swift"

@@ -12,13 +12,8 @@ import STPopup
 
 class RemindersViewController: UIViewController {
 
-    let format = "MMM dd, yyyy"
-    
     let tableView = UITableView()
     var reminders: [ReminderItem] = []
-    
-
-    lazy var textSize: Int = UserDefaults.standard.object(forKey: "savedFontSize") as? Int ?? 18
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -32,42 +27,44 @@ class RemindersViewController: UIViewController {
         super.viewDidLoad()
         
         title = "Reminders"
-        
         navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addReminder)), animated: true)
 
         view.addSubview(tableView)
-        setConstraints()
+        setupTableView()
+        
+        reminders.append(ReminderItem(title: "Doctors Appointment", reminderDate: "8/12/99", whenToRemind: RemindMe.then, description: "Make sure to ask him about your severe depression!"))
+        reminders.append(ReminderItem(title: "Prostate Exam", reminderDate: "8/22/19", whenToRemind: RemindMe.then, description: "It's gonna suck!"))
+    }
+
+    func setupTableView() {
         tableView.register(RemindersCardCell.self, forCellReuseIdentifier: RemindersCardCell.reuseID)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = UIColor(hex: "#EEEEEE", andAlpha: 1.0)
+        tableView.backgroundColor = UIStyle.backgroundColor
         tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 64
-        tableView.tableFooterView = UIView()
         
-        reminders.append(ReminderItem(title: "Test!", reminderDate: "DEEZ NUTZZZZZ", whenToRemind: RemindMe.then, description: "sdfsdfsdfsdfsdfbghjsdfhbsdfhdsf hksffhkbdsfhdfhd hhhh hhh hh hb hbh bhb ghb hbc bdcvhji bdvihj bdvj bdcvj bndfvju bndfovu bndfiouv ibndoufvbn odufvbnodufvbn dioufv bdiufbv idufbv diufb "))
+        let footerView = UIView()
+        footerView.backgroundColor = UIStyle.backgroundColor
+        tableView.tableFooterView = footerView
         
-        reminders.append(ReminderItem(title: "Test2", reminderDate: "Here is another DEEZ NUTZ", whenToRemind: RemindMe.then, description: "sdfsdfsdfsdfsdfbghjsdfhbsdfhdsf hksffhkbdsfhdfhd hhhh hhh hh hb hbh bhb ghb hbc bdcvhji bdvihj bdvj bdcvj bndfvju bndfovu bndfiouv ibndoufvbn odufvbnodufvbn dioufv bdiufbv idufbv diufb "))
-    }
-
-    func setConstraints() {
         tableView.snp.makeConstraints { (make) in
             make.height.width.equalToSuperview()
         }
     }
     
+    func append(_ item: ReminderItem) {
+        reminders.append(item)
+        tableView.reloadData()
+    }
+    
     @objc func addReminder() {
-        
-        let popup = ReminderPopup()
-        
-        self.navigationController?.pushViewController(popup, animated: true)
-        
+        self.navigationController?.pushViewController(ReminderPopup(parentVC: self), animated: true)
     }
 }
 
 extension RemindersViewController: UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return reminders.count
     }
@@ -90,7 +87,6 @@ extension RemindersViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }

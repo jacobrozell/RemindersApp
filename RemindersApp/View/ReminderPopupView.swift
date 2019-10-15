@@ -8,7 +8,13 @@
 
 import Foundation
 import UIKit
+import ProgressHUD
 
+protocol ReminderPopupUI {
+    func setupColors()
+    func setupViews()
+    func setupConstraints()
+}
 
 class ReminderPopup: UIViewController {
     
@@ -18,32 +24,43 @@ class ReminderPopup: UIViewController {
     var choicesAsEnum = [RemindMe]()
     
     var itemToAdd = ReminderItem(title: "", reminderDate: "", whenToRemind: RemindMe.then, description: "")
-    let selectedRemindMeTime: RemindMe = RemindMe.then
     
+    let titleCard = UIView()
     let titleLabel = UITextField()
     let separatorView = UIView()
+    
+    let dateTimeCardView = UIView()
     let dateTimeLabel = UILabel()
     let dateTimePicker = UIDatePicker()
+    
+    let remindMeCard = UIView()
     let remindMeLabel = UILabel()
     let remindMePicker = UIPickerView()
+    
+    let descCard = UIView()
     let descLabel = UILabel()
     let descTextField = UITextField()
     
-    let stackView = UIStackView()
     let createButton = UIButton()
-    let cancelButton = UIButton()
     
-    convenience init() {
+    var selectedReminderTime: RemindMe = .then
+    
+    var parentVC = RemindersViewController()
+    
+    convenience init(parentVC: RemindersViewController) {
         self.init(nibName: nil, bundle: nil)
+        
+        self.parentVC = parentVC
         
         title = "Add New Reminder"
         
-        self.view.backgroundColor = .white
+        self.edgesForExtendedLayout = []
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         view.addGestureRecognizer(tapGesture)
         
         setupChoices()
+        setupColors()
         setupViews()
         setupConstraints()
     }
@@ -67,92 +84,171 @@ class ReminderPopup: UIViewController {
         }
     }
     
-    func setupViews() {
-        titleLabel.placeholder = "Title"
-        titleLabel.isUserInteractionEnabled = true
-        titleLabel.textColor = UIStyle.LightMode.black.toColor()
+    @objc func createPressed() {
+        print("Create button pressed")
+        print("titleLabel: \(titleLabel.text!)\nreminderDate: \(dateTimePicker.date)\nwhenToRemind: \(selectedReminderTime.rawValue)\ndesc: \(descTextField.text!)")
         
-        dateTimeLabel.text = "Date/Time"
+        guard let title = titleLabel.text, let desc = descTextField.text else { return }
+        let item = ReminderItem(title: title, reminderDate: dateTimePicker.date.string(with: UIStyle.format), whenToRemind: selectedReminderTime, description: desc)
+        
+        parentVC.append(item)
+
+        DispatchQueue.main.async {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+}
+
+// MARK: - ReminderUI Protocol
+extension ReminderPopup: ReminderPopupUI {
+    func setupColors() {
+        view.backgroundColor = UIStyle.cellSpaceBackgroundColor
+        
+        titleCard.backgroundColor = UIStyle.navBarTextColor
+        
+        titleLabel.tintColor = UIStyle.cellTextColor
+        titleLabel.backgroundColor = UIStyle.navBarTextColor
+        
+        separatorView.backgroundColor = UIStyle.separatorColor
+        
+        dateTimeCardView.backgroundColor = UIStyle.cellBackgroundColor
+        
+        dateTimeLabel.tintColor = UIStyle.cellTextColor
+        
+        dateTimePicker.setValue(UIStyle.cellTextColor, forKeyPath: "textColor")
+        dateTimePicker.setValue(false, forKey: "highlightsToday")
+        
+        remindMeCard.backgroundColor = UIStyle.cellBackgroundColor
+        remindMeLabel.tintColor = UIStyle.cellTextColor
+        
+        descCard.backgroundColor = UIStyle.cellBackgroundColor
+        descLabel.tintColor = UIStyle.cellTextColor
+        descTextField.backgroundColor = UIStyle.cellBackgroundColor
+        
+        createButton.backgroundColor = UIStyle.cellBackgroundColor
+        createButton.setTitleColor(UIStyle.cellTextColor, for: .normal)
+    }
+    
+    func setupViews() {
+        
+        titleCard.layer.cornerRadius = 8.0
+        titleCard.clipsToBounds = true
+        
+        titleLabel.placeholder = " Reminder Title"
+        titleLabel.isUserInteractionEnabled = true
+        titleLabel.font = UIFont.systemFont(ofSize: 20.0)
+    
+        dateTimeCardView.layer.cornerRadius = 12.0
+        dateTimeCardView.clipsToBounds = true
+        
+        dateTimeLabel.text = "Event Date/Time:"
         dateTimeLabel.textAlignment = .left
-        dateTimeLabel.textColor = UIStyle.LightMode.black.toColor()
         
         dateTimePicker.date = Date()
         dateTimePicker.minimumDate = Date()
         dateTimePicker.maximumDate = Date.distantFuture
         dateTimePicker.datePickerMode = .dateAndTime
-        //dateTimePicker.backgroundColor = UIColor(hex: "#123456", andAlpha: 1.0)
+        
+        remindMeCard.layer.cornerRadius = 12.0
+        remindMeCard.clipsToBounds = true
         
         remindMeLabel.text = "Remind me:"
         remindMeLabel.textAlignment = .left
-        remindMeLabel.textColor = UIStyle.LightMode.black.toColor()
         
         remindMePicker.dataSource = self
         remindMePicker.delegate = self
-        //remindMePicker.backgroundColor = UIColor(hex: "#123456", andAlpha: 1.0)
         
-        descLabel.text = "Description:"
+        descCard.layer.cornerRadius = 12.0
+        descCard.clipsToBounds = true
+        
+        descLabel.text = "Note:"
         descLabel.textAlignment = .left
-        descLabel.textColor = UIStyle.LightMode.black.toColor()
         
-        descTextField.placeholder = "Additonal Information"
-        //descTextField.backgroundColor = UIColor(hex: "#123456", andAlpha: 1.0)
-        
-        stackView.distribution = .fillEqually
-        stackView.axis = .horizontal
+        descTextField.textAlignment = .justified
+        descTextField.contentVerticalAlignment = .top
+        descTextField.layer.cornerRadius = 5.0
+        descTextField.clipsToBounds = true
         
         createButton.setTitle("Create", for: .normal)
-        createButton.setTitleColor(UIColor(hex: "#123456", andAlpha: 1.0), for: .normal)
         createButton.addTarget(self, action: #selector(createPressed), for: .touchUpInside)
+        createButton.layer.cornerRadius = 12.0
+        createButton.clipsToBounds = true
         
-        stackView.addArrangedSubview(createButton)
-        stackView.addArrangedSubview(cancelButton)
+        self.view.addSubviews(titleCard, dateTimeCardView, remindMeCard, descCard, createButton)
         
-        self.view.addSubviews(titleLabel, separatorView, dateTimeLabel, dateTimePicker, remindMeLabel, remindMePicker, descLabel, descTextField, createButton)
-
+        titleCard.addSubviews(titleLabel, separatorView)
+        dateTimeCardView.addSubviews(dateTimeLabel, dateTimePicker)
+        remindMeCard.addSubviews(remindMeLabel, remindMePicker)
+        descCard.addSubviews(descLabel, descTextField)
     }
     
     func setupConstraints() {
+        titleCard.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(4)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalTo(35)
+        }
+        
         titleLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(90)
-            make.left.equalToSuperview().offset(8)
-            make.right.equalToSuperview().offset(-8)
+            make.top.equalToSuperview().offset(4)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
             make.height.equalTo(30)
         }
         
-//        separatorView.snp.makeConstraints { (make) in
-//            make.height.equalTo(2)
-//            make.left.right.equalToSuperview().inset(8)
-//            make.top.equalTo(titleLabel.snp.bottom).offset(8)
-//        }
+        separatorView.snp.makeConstraints { (make) in
+            make.height.equalTo(1)
+            make.left.right.equalToSuperview().inset(8)
+            make.top.equalTo(titleLabel.snp.bottom).offset(5)
+        }
+        
+        dateTimeCardView.snp.makeConstraints { (make) in
+            make.top.equalTo(separatorView.snp.bottom).offset(16)
+            make.left.right.equalToSuperview().inset(8)
+            make.height.equalTo(100)
+        }
         
         dateTimeLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom).offset(16)
-            make.left.right.equalToSuperview().inset(8)
-            make.height.equalTo(30)
+            make.top.equalToSuperview().offset(4)
+            make.left.right.equalToSuperview().inset(16)
+            make.height.equalTo(15)
         }
         
         dateTimePicker.snp.makeConstraints { (make) in
-            make.top.equalTo(dateTimeLabel.snp.bottom).offset(4)
-            make.left.right.equalToSuperview().inset(8)
+            make.bottom.equalToSuperview().offset(-4)
+            make.left.right.equalToSuperview().inset(16)
             make.height.equalTo(80)
+        }
+        
+        remindMeCard.snp.makeConstraints { (make) in
+            make.top.equalTo(dateTimeCardView.snp.bottom).offset(32)
+            make.left.right.equalToSuperview().inset(8)
+            make.height.equalTo(100)
         }
         
         remindMeLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(dateTimePicker.snp.bottom).offset(16)
-            make.left.right.equalToSuperview().inset(8)
-            make.height.equalTo(30)
+            make.top.equalToSuperview().offset(4)
+            make.left.right.equalToSuperview().inset(16)
+            make.height.equalTo(15)
         }
         
         remindMePicker.snp.makeConstraints { (make) in
-            make.top.equalTo(remindMeLabel.snp.bottom).offset(4)
+            make.bottom.equalToSuperview().offset(-4)
             make.left.right.equalToSuperview().inset(8)
             make.height.equalTo(80)
         }
         
-        descLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(remindMePicker.snp.bottom).offset(16)
+        descCard.snp.makeConstraints { (make) in
+            make.top.equalTo(remindMeCard.snp.bottom).offset(32)
             make.left.right.equalToSuperview().inset(8)
-            make.height.equalTo(30)
+            make.height.equalTo(150)
+        }
+        
+        descLabel.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(4)
+            make.left.right.equalToSuperview().inset(16)
+            make.height.equalTo(15)
         }
         
         descTextField.snp.makeConstraints { (make) in
@@ -162,22 +258,12 @@ class ReminderPopup: UIViewController {
         }
         
         createButton.snp.makeConstraints { (make) in
-            make.bottom.equalToSuperview().offset(-4)
-            make.left.right.equalToSuperview().inset(4)
-            make.height.equalTo(150)
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-60)
+            make.width.equalTo(150)
+            make.height.equalTo(50)
         }
     }
-    
-    @objc func createPressed() {
-        print("Create button pressed")
-        
-//        let item = ReminderItem(title: titleLabel.text!, reminderDate: dateTimePicker.date.string(with: "MMM dd, yyyy"), whenToRemind: choicesAsEnum[remindMePicker.selectedRow(inComponent: 1)], description: descTextField.text!)
-//        
-//        self.itemToAdd = item
-        self.dismiss(animated: true, completion: nil)
-
-    }
-    
 }
 
 // MARK: - UIPickerViewDelegate/UIPickerViewDataSource
@@ -196,6 +282,11 @@ extension ReminderPopup: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         print("\(row) index selected! -> \(choices[row])")
-        
+        selectedReminderTime = choicesAsEnum[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        return NSAttributedString(string: choices[row], attributes: [NSAttributedString.Key.foregroundColor: UIStyle.cellTextColor])
     }
 }
+
