@@ -8,6 +8,7 @@
 import Foundation
 import SnapKit
 import UIKit
+import STPopup
 
 class RemindersViewController: UIViewController {
 
@@ -45,9 +46,9 @@ class RemindersViewController: UIViewController {
         tableView.estimatedRowHeight = 64
         tableView.tableFooterView = UIView()
         
-        reminders.append(ReminderItem(title: "Test!", reminderDate: "DEEZ NUTZZZZZ", description: "sdfsdfsdfsdfsdfbghjsdfhbsdfhdsf hksffhkbdsfhdfhd hhhh hhh hh hb hbh bhb ghb hbc bdcvhji bdvihj bdvj bdcvj bndfvju bndfovu bndfiouv ibndoufvbn odufvbnodufvbn dioufv bdiufbv idufbv diufb "))
+        reminders.append(ReminderItem(title: "Test!", reminderDate: "DEEZ NUTZZZZZ", whenToRemind: RemindMe.then, description: "sdfsdfsdfsdfsdfbghjsdfhbsdfhdsf hksffhkbdsfhdfhd hhhh hhh hh hb hbh bhb ghb hbc bdcvhji bdvihj bdvj bdcvj bndfvju bndfovu bndfiouv ibndoufvbn odufvbnodufvbn dioufv bdiufbv idufbv diufb "))
         
-        reminders.append(ReminderItem(title: "Test2", reminderDate: "Here is another DEEZ NUTZ", description: "sdfsdfsdfsdfsdfbghjsdfhbsdfhdsf hksffhkbdsfhdfhd hhhh hhh hh hb hbh bhb ghb hbc bdcvhji bdvihj bdvj bdcvj bndfvju bndfovu bndfiouv ibndoufvbn odufvbnodufvbn dioufv bdiufbv idufbv diufb "))
+        reminders.append(ReminderItem(title: "Test2", reminderDate: "Here is another DEEZ NUTZ", whenToRemind: RemindMe.then, description: "sdfsdfsdfsdfsdfbghjsdfhbsdfhdsf hksffhkbdsfhdfhd hhhh hhh hh hb hbh bhb ghb hbc bdcvhji bdvihj bdvj bdcvj bndfvju bndfovu bndfiouv ibndoufvbn odufvbnodufvbn dioufv bdiufbv idufbv diufb "))
     }
 
     func setConstraints() {
@@ -57,42 +58,11 @@ class RemindersViewController: UIViewController {
     }
     
     @objc func addReminder() {
-        let alertController = UIAlertController(title: "Alert", message: "This is an alert.", preferredStyle: .alert)
         
-        alertController.addTextField { (textField) in
-            textField.placeholder = "Reminder Title"
-        }
+        let popup = ReminderPopup()
         
-        alertController.addTextField { (textField) in
-            textField.placeholder = "Reminder Description"
-        }
-                
-        let createAction = UIAlertAction(title: "Create", style: .default) { (action:UIAlertAction) in
-            guard let title = alertController.textFields![0].text, let desc = alertController.textFields![1].text else { return }
-            
-            let date = Date().string(with: self.format)
-            
-            let item = ReminderItem(title: title, reminderDate: date, description: desc)
-            
-            self.reminders.append(item)
-            
-            self.dismiss(animated: true) {
-                self.tableView.reloadData()
-            }
-        }
+        self.navigationController?.pushViewController(popup, animated: true)
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { (action:UIAlertAction) in
-            self.dismiss(animated: true) {
-                self.tableView.reloadData()
-            }
-        }
-        
-
-
-
-        alertController.addAction(createAction)
-        alertController.addAction(cancelAction)
-        self.present(alertController, animated: true, completion: nil)
     }
 }
 
