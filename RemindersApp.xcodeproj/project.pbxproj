@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B141EE923578C570064DB86 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0B141EE723578C570064DB86 /* DataModel.xcdatamodeld */; };
 		0B15BB8C235500EE006D616C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B15BB8B235500EE006D616C /* AppDelegate.swift */; };
 		0B15BB8E235500EE006D616C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B15BB8D235500EE006D616C /* SceneDelegate.swift */; };
 		0B15BB95235500F0006D616C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B15BB94235500F0006D616C /* Assets.xcassets */; };
 		0B15BB98235500F0006D616C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B15BB96235500F0006D616C /* LaunchScreen.storyboard */; };
-		0B15BBA323550203006D616C /* ReminderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B15BB9F23550202006D616C /* ReminderItem.swift */; };
+		0B15BBA323550203006D616C /* RemindMeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B15BB9F23550202006D616C /* RemindMeEnum.swift */; };
 		0B15BBA523550203006D616C /* RemindersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B15BBA123550203006D616C /* RemindersViewController.swift */; };
 		0B15BBA623550203006D616C /* ReminderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B15BBA223550203006D616C /* ReminderCell.swift */; };
 		0B15BBA823550240006D616C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B15BBA723550240006D616C /* Extensions.swift */; };
@@ -21,13 +22,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B141EE823578C570064DB86 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		0B15BB88235500EE006D616C /* RemindersApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemindersApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B15BB8B235500EE006D616C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0B15BB8D235500EE006D616C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		0B15BB94235500F0006D616C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0B15BB97235500F0006D616C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0B15BB99235500F0006D616C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0B15BB9F23550202006D616C /* ReminderItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderItem.swift; sourceTree = "<group>"; };
+		0B15BB9F23550202006D616C /* RemindMeEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemindMeEnum.swift; sourceTree = "<group>"; };
 		0B15BBA123550203006D616C /* RemindersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemindersViewController.swift; sourceTree = "<group>"; };
 		0B15BBA223550203006D616C /* ReminderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderCell.swift; sourceTree = "<group>"; };
 		0B15BBA723550240006D616C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -105,7 +107,8 @@
 		3688F53023552EB6007874B3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				0B15BB9F23550202006D616C /* ReminderItem.swift */,
+				0B141EE723578C570064DB86 /* DataModel.xcdatamodeld */,
+				0B15BB9F23550202006D616C /* RemindMeEnum.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -251,10 +254,11 @@
 			files = (
 				0B15BB8C235500EE006D616C /* AppDelegate.swift in Sources */,
 				0B15BBA623550203006D616C /* ReminderCell.swift in Sources */,
-				0B15BBA323550203006D616C /* ReminderItem.swift in Sources */,
+				0B15BBA323550203006D616C /* RemindMeEnum.swift in Sources */,
 				0B15BB8E235500EE006D616C /* SceneDelegate.swift in Sources */,
 				0B15BBA523550203006D616C /* RemindersViewController.swift in Sources */,
 				0B15BBA823550240006D616C /* Extensions.swift in Sources */,
+				0B141EE923578C570064DB86 /* DataModel.xcdatamodeld in Sources */,
 				3688F52D23552AF0007874B3 /* ReminderPopupView.swift in Sources */,
 				3688F53323552F1B007874B3 /* UIStyle.swift in Sources */,
 			);
@@ -448,6 +452,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		0B141EE723578C570064DB86 /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				0B141EE823578C570064DB86 /* DataModel.xcdatamodel */,
+			);
+			currentVersion = 0B141EE823578C570064DB86 /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 0B15BB80235500EE006D616C /* Project object */;
 }

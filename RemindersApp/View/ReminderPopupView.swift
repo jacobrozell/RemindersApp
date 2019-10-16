@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import ProgressHUD
+import CoreData
 
 protocol ReminderPopupUI {
     func setupColors()
@@ -23,7 +24,7 @@ class ReminderPopup: UIViewController {
     var choices = [String]()
     var choicesAsEnum = [RemindMe]()
     
-    var itemToAdd = ReminderItem(title: "", reminderDate: "", whenToRemind: RemindMe.then, description: "")
+    var itemToAdd = ReminderItem()
     
     let titleCard = UIView()
     let titleLabel = UITextField()
@@ -88,10 +89,9 @@ class ReminderPopup: UIViewController {
         print("Create button pressed")
         print("titleLabel: \(titleLabel.text!)\nreminderDate: \(dateTimePicker.date)\nwhenToRemind: \(selectedReminderTime.rawValue)\ndesc: \(descTextField.text!)")
         
-        guard let title = titleLabel.text, let desc = descTextField.text else { return }
-        let item = ReminderItem(title: title, reminderDate: dateTimePicker.date.string(with: UIStyle.format), whenToRemind: selectedReminderTime, description: desc)
+        guard let title = titleLabel.text else { return }
         
-        parentVC.append(item)
+        parentVC.createItem(title: title, reminderTime: selectedReminderTime.rawValue, eventTime: dateTimePicker.date.string(with: UIStyle.format), note: descTextField.text ?? "")
 
         DispatchQueue.main.async {
             self.navigationController?.popViewController(animated: true)
@@ -106,7 +106,8 @@ extension ReminderPopup: ReminderPopupUI {
         
         titleCard.backgroundColor = UIStyle.navBarTextColor
         
-        titleLabel.tintColor = UIStyle.cellTextColor
+        titleLabel.tintColor = UIStyle.titleTextColor
+        titleLabel.textColor = UIStyle.titleTextColor
         titleLabel.backgroundColor = UIStyle.navBarTextColor
         
         separatorView.backgroundColor = UIStyle.separatorColor
@@ -124,6 +125,7 @@ extension ReminderPopup: ReminderPopupUI {
         descCard.backgroundColor = UIStyle.cellBackgroundColor
         descLabel.tintColor = UIStyle.cellTextColor
         descTextField.backgroundColor = UIStyle.cellBackgroundColor
+        descTextField.tintColor = UIStyle.cellTextColor
         
         createButton.backgroundColor = UIStyle.cellBackgroundColor
         createButton.setTitleColor(UIStyle.cellTextColor, for: .normal)
@@ -134,7 +136,7 @@ extension ReminderPopup: ReminderPopupUI {
         titleCard.layer.cornerRadius = 8.0
         titleCard.clipsToBounds = true
         
-        titleLabel.placeholder = " Reminder Title"
+        titleLabel.attributedPlaceholder = NSAttributedString(string: "Title", attributes: [NSAttributedString.Key.foregroundColor: UIStyle.separatorColor])
         titleLabel.isUserInteractionEnabled = true
         titleLabel.font = UIFont.systemFont(ofSize: 20.0)
     
@@ -185,8 +187,8 @@ extension ReminderPopup: ReminderPopupUI {
     func setupConstraints() {
         titleCard.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(4)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
+            make.left.equalToSuperview().offset(4)
+            make.right.equalToSuperview().offset(-4)
             make.height.equalTo(35)
         }
         
@@ -205,7 +207,7 @@ extension ReminderPopup: ReminderPopupUI {
         
         dateTimeCardView.snp.makeConstraints { (make) in
             make.top.equalTo(separatorView.snp.bottom).offset(16)
-            make.left.right.equalToSuperview().inset(8)
+            make.left.right.equalToSuperview().inset(16)
             make.height.equalTo(100)
         }
         
@@ -223,7 +225,7 @@ extension ReminderPopup: ReminderPopupUI {
         
         remindMeCard.snp.makeConstraints { (make) in
             make.top.equalTo(dateTimeCardView.snp.bottom).offset(32)
-            make.left.right.equalToSuperview().inset(8)
+            make.left.right.equalToSuperview().inset(16)
             make.height.equalTo(100)
         }
         
@@ -241,7 +243,7 @@ extension ReminderPopup: ReminderPopupUI {
         
         descCard.snp.makeConstraints { (make) in
             make.top.equalTo(remindMeCard.snp.bottom).offset(32)
-            make.left.right.equalToSuperview().inset(8)
+            make.left.right.equalToSuperview().inset(16)
             make.height.equalTo(150)
         }
         
@@ -289,4 +291,3 @@ extension ReminderPopup: UIPickerViewDelegate, UIPickerViewDataSource {
         return NSAttributedString(string: choices[row], attributes: [NSAttributedString.Key.foregroundColor: UIStyle.cellTextColor])
     }
 }
-

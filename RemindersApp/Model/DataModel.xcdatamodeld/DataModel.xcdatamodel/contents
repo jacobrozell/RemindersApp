@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14903" systemVersion="18F132" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ReminderItem" representedClassName="ReminderItem" syncable="YES" codeGenerationType="class">
+        <attribute name="eventTime" attributeType="String"/>
+        <attribute name="note" optional="YES" attributeType="String"/>
+        <attribute name="reminderTime" attributeType="String"/>
+        <attribute name="title" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="ReminderItem" positionX="-63" positionY="-18" width="128" height="28"/>
+    </elements>
+</model>

@@ -22,7 +22,7 @@ class RemindersCardCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        statusView.layer.cornerRadius = 4.0
+        statusView.layer.cornerRadius = 6.0
         statusView.clipsToBounds = true
     
         cardView.layer.cornerRadius = 16.0
@@ -52,10 +52,12 @@ class RemindersCardCell: UITableViewCell {
         descLabel.textColor = UIStyle.cellTextColor
     }
     
-    func setupCell(title: String, date: String, desc: String) {
+    func setupCell(title: String, reminderDate: String, eventDate: String, note: String?="") {
         titleLabel.text = title
-        dateLabel.text = date
-        descLabel.text = desc
+        dateLabel.text = eventDate
+        descLabel.text = note
+        
+        #warning("not doing anything with reminderDate yet")
     }
 
     func setupConstraints() {
@@ -64,10 +66,11 @@ class RemindersCardCell: UITableViewCell {
         }
         
         statusView.snp.makeConstraints { (make) in
-            make.width.equalTo(10)
+            make.width.height.equalTo(10)
             make.left.equalToSuperview().offset(8)
-            make.top.equalTo(cardView.snp.top).offset(4)
-            make.bottom.equalTo(cardView.snp.bottom).offset(-4)
+            make.right.equalTo(cardView.snp.left).offset(-8)
+            
+            make.centerY.equalToSuperview()
         }
         
         cardView.snp.makeConstraints { (make) in
