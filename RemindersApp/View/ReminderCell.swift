@@ -27,19 +27,18 @@ class RemindersCardCell: UITableViewCell {
     
         cardView.layer.cornerRadius = 16.0
         cardView.clipsToBounds = true
+        cardView.layer.masksToBounds = false
+        cardView.addDropShadow()
         
         titleLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
         
-        descLabel.numberOfLines = 4
+        descLabel.numberOfLines = 2
         descLabel.textAlignment = .left
         descLabel.lineBreakMode = .byTruncatingTail
 
         contentView.addSubview(cellBackgroundView)
         cellBackgroundView.addSubviews(statusView, cardView)
         cardView.addSubviews(titleLabel, dateLabel, descLabel)//, showInCalendarButton)
-        
-        setupColors()
-        setupConstraints()
     }
     
     func setupColors() {
@@ -57,6 +56,9 @@ class RemindersCardCell: UITableViewCell {
         dateLabel.text = eventDate
         descLabel.text = note
         
+        setupColors()
+        setupConstraints()
+        
         #warning("not doing anything with reminderDate yet")
     }
 
@@ -65,24 +67,29 @@ class RemindersCardCell: UITableViewCell {
             make.edges.equalToSuperview()
         }
         
-        statusView.snp.makeConstraints { (make) in
-            make.width.height.equalTo(10)
-            make.left.equalToSuperview().offset(8)
-            make.right.equalTo(cardView.snp.left).offset(-8)
-            
-            make.centerY.equalToSuperview()
-        }
+//        statusView.snp.makeConstraints { (make) in
+//            make.width.height.equalTo(10)
+//            make.left.equalToSuperview().offset(8)
+//            make.right.equalTo(cardView.snp.left).offset(-8)
+//
+//            make.centerY.equalToSuperview()
+//        }
         
         cardView.snp.makeConstraints { (make) in
-            make.left.equalTo(statusView.snp.right).offset(8)
+            make.left.equalToSuperview().offset(16)
             make.top.equalToSuperview().offset(8)
             make.right.equalToSuperview().offset(-16)
-            make.bottom.equalToSuperview().offset(-16)
+            make.bottom.equalToSuperview().offset(-8)
         }
         
         titleLabel.snp.makeConstraints { (make) in
-            make.top.left.equalToSuperview().offset(4)
-            make.right.equalToSuperview().offset(-4)//(showInCalendarButton.snp.left).offset(-4)
+            if descLabel.text == "" {
+                make.centerY.equalToSuperview()
+            } else {
+                make.top.equalToSuperview().offset(4)
+            }
+            make.left.equalToSuperview().offset(4)
+            make.right.equalTo(cardView.snp.centerX).offset(-4)//(showInCalendarButton.snp.left).offset(-4)
             make.height.equalTo(30)
         }
         
@@ -94,7 +101,7 @@ class RemindersCardCell: UITableViewCell {
 //        }
         
         dateLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.top)
+            make.centerY.equalTo(titleLabel)
             make.right.equalToSuperview().offset(-4)
             make.height.equalTo(30)
         }
@@ -103,7 +110,7 @@ class RemindersCardCell: UITableViewCell {
             make.top.equalTo(titleLabel.snp.bottom).offset(4)
             make.left.equalTo(titleLabel.snp.left)
             make.right.equalToSuperview().offset(-4)
-            make.bottom.equalToSuperview().offset(-4)
+            make.bottom.equalToSuperview().offset(-6)
         }
     }
 

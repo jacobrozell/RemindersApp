@@ -27,7 +27,7 @@ class ReminderPopup: UIViewController {
     var itemToAdd = ReminderItem()
     
     let titleCard = UIView()
-    let titleLabel = UITextField()
+    let titleTextField = UITextField()
     let separatorView = UIView()
     
     let dateTimeCardView = UIView()
@@ -40,7 +40,7 @@ class ReminderPopup: UIViewController {
     
     let descCard = UIView()
     let descLabel = UILabel()
-    let descTextField = UITextField()
+    let descTextField = UITextView()
     
     let createButton = UIButton()
     
@@ -87,9 +87,9 @@ class ReminderPopup: UIViewController {
     
     @objc func createPressed() {
         print("Create button pressed")
-        print("titleLabel: \(titleLabel.text!)\nreminderDate: \(dateTimePicker.date)\nwhenToRemind: \(selectedReminderTime.rawValue)\ndesc: \(descTextField.text!)")
+        print("titleTextField: \(titleTextField.text!)\nreminderDate: \(dateTimePicker.date)\nwhenToRemind: \(selectedReminderTime.rawValue)\ndesc: \(descTextField.text!)")
         
-        guard let title = titleLabel.text else { return }
+        guard let title = titleTextField.text else { return }
         
         parentVC.createItem(title: title, reminderTime: selectedReminderTime.rawValue, eventTime: dateTimePicker.date.string(with: UIStyle.format), note: descTextField.text ?? "")
 
@@ -104,26 +104,29 @@ extension ReminderPopup: ReminderPopupUI {
     func setupColors() {
         view.backgroundColor = UIStyle.cellSpaceBackgroundColor
         
-        titleCard.backgroundColor = UIStyle.navBarTextColor
+        titleCard.backgroundColor = UIStyle.cellBackgroundColor
         
-        titleLabel.tintColor = UIStyle.titleTextColor
-        titleLabel.textColor = UIStyle.titleTextColor
-        titleLabel.backgroundColor = UIStyle.navBarTextColor
+        titleTextField.tintColor = UIStyle.titleTextColor
+        titleTextField.textColor = UIStyle.titleTextColor
+        titleTextField.backgroundColor = UIStyle.cellBackgroundColor
         
         separatorView.backgroundColor = UIStyle.separatorColor
         
         dateTimeCardView.backgroundColor = UIStyle.cellBackgroundColor
         
         dateTimeLabel.tintColor = UIStyle.cellTextColor
+        dateTimeLabel.textColor = UIStyle.cellTextColor
+
         
         dateTimePicker.setValue(UIStyle.cellTextColor, forKeyPath: "textColor")
         dateTimePicker.setValue(false, forKey: "highlightsToday")
         
         remindMeCard.backgroundColor = UIStyle.cellBackgroundColor
+        remindMeLabel.textColor = UIStyle.cellTextColor
         remindMeLabel.tintColor = UIStyle.cellTextColor
         
         descCard.backgroundColor = UIStyle.cellBackgroundColor
-        descLabel.tintColor = UIStyle.cellTextColor
+        descLabel.textColor = UIStyle.cellTextColor
         descTextField.backgroundColor = UIStyle.cellBackgroundColor
         descTextField.tintColor = UIStyle.cellTextColor
         
@@ -135,10 +138,9 @@ extension ReminderPopup: ReminderPopupUI {
         
         titleCard.layer.cornerRadius = 8.0
         titleCard.clipsToBounds = true
-        
-        titleLabel.attributedPlaceholder = NSAttributedString(string: "Title", attributes: [NSAttributedString.Key.foregroundColor: UIStyle.separatorColor])
-        titleLabel.isUserInteractionEnabled = true
-        titleLabel.font = UIFont.systemFont(ofSize: 20.0)
+        titleTextField.attributedPlaceholder = NSAttributedString(string: "Title", attributes: [NSAttributedString.Key.foregroundColor: UIStyle.separatorColor])
+        titleTextField.isUserInteractionEnabled = true
+        titleTextField.font = UIFont.systemFont(ofSize: 20.0)
     
         dateTimeCardView.layer.cornerRadius = 12.0
         dateTimeCardView.clipsToBounds = true
@@ -167,46 +169,53 @@ extension ReminderPopup: ReminderPopupUI {
         descLabel.textAlignment = .left
         
         descTextField.textAlignment = .justified
-        descTextField.contentVerticalAlignment = .top
         descTextField.layer.cornerRadius = 5.0
         descTextField.clipsToBounds = true
+        descTextField.attributedText = NSAttributedString(string: "Note", attributes: [NSAttributedString.Key.foregroundColor: UIStyle.separatorColor])
+        descTextField.textColor = UIStyle.titleTextColor
         
         createButton.setTitle("Create", for: .normal)
         createButton.addTarget(self, action: #selector(createPressed), for: .touchUpInside)
         createButton.layer.cornerRadius = 12.0
         createButton.clipsToBounds = true
+        setupDropShadows()
         
         self.view.addSubviews(titleCard, dateTimeCardView, remindMeCard, descCard, createButton)
         
-        titleCard.addSubviews(titleLabel, separatorView)
+        titleCard.addSubviews(titleTextField, separatorView)
         dateTimeCardView.addSubviews(dateTimeLabel, dateTimePicker)
         remindMeCard.addSubviews(remindMeLabel, remindMePicker)
         descCard.addSubviews(descLabel, descTextField)
     }
     
+    func setupDropShadows() {
+        titleCard.addDropShadow()
+        dateTimeCardView.addDropShadow()
+        remindMeCard.addDropShadow()
+        descCard.addDropShadow()
+    }
+    
     func setupConstraints() {
         titleCard.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(4)
-            make.left.equalToSuperview().offset(4)
-            make.right.equalToSuperview().offset(-4)
-            make.height.equalTo(35)
+            make.top.equalToSuperview().offset(16)
+            make.left.right.equalToSuperview().inset(16)
+            make.height.equalTo(42)
         }
         
-        titleLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(4)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.height.equalTo(30)
+        titleTextField.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(8)
+            make.left.right.equalToSuperview().inset(16)
+            make.height.equalTo(26)
         }
         
-        separatorView.snp.makeConstraints { (make) in
-            make.height.equalTo(1)
-            make.left.right.equalToSuperview().inset(8)
-            make.top.equalTo(titleLabel.snp.bottom).offset(5)
-        }
+        //separatorView.snp.makeConstraints { (make) in
+         //   make.height.equalTo(1)
+///make.left.right.equalToSuperview().inset(8)
+         //   make.top.equalTo(titleTextField.snp.bottom).offset(5)
+        //}
         
         dateTimeCardView.snp.makeConstraints { (make) in
-            make.top.equalTo(separatorView.snp.bottom).offset(16)
+            make.top.equalTo(titleCard.snp.bottom).offset(16)
             make.left.right.equalToSuperview().inset(16)
             make.height.equalTo(100)
         }
@@ -224,7 +233,7 @@ extension ReminderPopup: ReminderPopupUI {
         }
         
         remindMeCard.snp.makeConstraints { (make) in
-            make.top.equalTo(dateTimeCardView.snp.bottom).offset(32)
+            make.top.equalTo(dateTimeCardView.snp.bottom).offset(16)
             make.left.right.equalToSuperview().inset(16)
             make.height.equalTo(100)
         }
@@ -242,7 +251,7 @@ extension ReminderPopup: ReminderPopupUI {
         }
         
         descCard.snp.makeConstraints { (make) in
-            make.top.equalTo(remindMeCard.snp.bottom).offset(32)
+            make.top.equalTo(remindMeCard.snp.bottom).offset(16)
             make.left.right.equalToSuperview().inset(16)
             make.height.equalTo(150)
         }
@@ -255,7 +264,7 @@ extension ReminderPopup: ReminderPopupUI {
         
         descTextField.snp.makeConstraints { (make) in
             make.top.equalTo(descLabel.snp.bottom).offset(4)
-            make.left.right.equalToSuperview().inset(8)
+            make.left.right.equalToSuperview().inset(16)
             make.height.equalTo(120)
         }
         

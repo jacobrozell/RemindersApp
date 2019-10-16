@@ -21,11 +21,10 @@ enum UIStyle {
     // Colors
     public static let navTintColor = UIColor(hex: "#0B2027", andAlpha: 1.0)
     public static let navBarTintColor = UIColor(hex: "#40798C", andAlpha: 1.0)
-    public static let navBarTextColor = UIColor.white
     
     public static let titleTextColor = UIColor.black
     
-    public static let backgroundColor = UIColor(hex: "#020201", andAlpha: 1.0)
+    public static let backgroundColor = UIColor(hex: "#DDDDDD", andAlpha: 1.0)
     
     public static let cellTextColor = UIColor.black//UIColor(hex: "#CFD7C7", andAlpha: 1.0)
     public static let cellSpaceBackgroundColor = UIColor(hex: "#DDDDDD", andAlpha: 1.0)//UIColor(hex: "#020201", andAlpha: 1.0)

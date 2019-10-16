@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         navigationBarAppearace.tintColor = UIStyle.navTintColor
         navigationBarAppearace.barTintColor = UIStyle.navBarTintColor
-        navigationBarAppearace.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIStyle.navBarTextColor]
+        navigationBarAppearace.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIStyle.navTintColor]
         
         let navigationController = UINavigationController()
         navigationController.setViewControllers([RemindersViewController()], animated: true)
