@@ -14,7 +14,6 @@ enum RemindMe: String, CaseIterable {
     case thirtyMin = "30 Minutes Before"
     case fifteenMin = "15 Minutes Before"
     case tenMin = "10 Minutes Before"
-
     case fiveMin = "5 Minutes Before"
     case oneMin = "1 Minute Before"
     case thirtySec = "30 Seconds Before"
@@ -29,7 +28,6 @@ enum RemindMe: String, CaseIterable {
         for value in RemindMe.allValues {
             items.append(value.rawValue)
         }
-
         return items
     }
 }

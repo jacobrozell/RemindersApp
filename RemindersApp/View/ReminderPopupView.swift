@@ -11,12 +11,14 @@ import UIKit
 import ProgressHUD
 import CoreData
 
+// MARK: - UIProtocol
 protocol ReminderPopupUI {
     func setupColors()
     func setupViews()
     func setupConstraints()
 }
 
+// MARK: - ReminderPopupViewController
 class ReminderPopup: UIViewController {
     
    // var choices: [RemindMe: String] = [RemindMe: String]()
@@ -99,7 +101,7 @@ class ReminderPopup: UIViewController {
     }
 }
 
-// MARK: - ReminderUI Protocol
+// MARK: - ReminderUI Extension
 extension ReminderPopup: ReminderPopupUI {
     func setupColors() {
         view.backgroundColor = UIStyle.cellSpaceBackgroundColor
@@ -277,7 +279,7 @@ extension ReminderPopup: ReminderPopupUI {
     }
 }
 
-// MARK: - UIPickerViewDelegate/UIPickerViewDataSource
+// MARK: - UIPickerViewDelegate/UIPickerViewDataSource Extension
 extension ReminderPopup: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1

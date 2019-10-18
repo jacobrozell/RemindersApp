@@ -11,6 +11,7 @@ import UIKit
 import STPopup
 import CoreData
 
+// MARK: - CoreDataManupulation Protocol
 protocol CoreDataManupulation {
     func createItem(title: String, reminderTime: String, eventTime: String, note: String) -> ReminderItem
     func saveItems()
@@ -18,6 +19,7 @@ protocol CoreDataManupulation {
     func deleteItem(at indexPath: IndexPath)
 }
 
+// MARK: - RemindersViewController
 class RemindersViewController: UIViewController {
     let tableView = UITableView()
     var reminders: [ReminderItem] = []
@@ -76,6 +78,7 @@ class RemindersViewController: UIViewController {
     }
 }
 
+// MARK: - CoreDataManupulation Extension
 extension RemindersViewController: CoreDataManupulation {
     func createItem(title: String, reminderTime: String, eventTime: String, note: String) -> ReminderItem {
         let newItem = ReminderItem(context: context)
@@ -115,6 +118,7 @@ extension RemindersViewController: CoreDataManupulation {
     }
 }
 
+// MARK: - UITableViewDataSource Extension
 extension RemindersViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return reminders.count
@@ -131,6 +135,7 @@ extension RemindersViewController: UITableViewDataSource {
     }
 }
 
+// MARK: - UITableViewDelegate Extension
 extension RemindersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.contentView.backgroundColor = .clear
