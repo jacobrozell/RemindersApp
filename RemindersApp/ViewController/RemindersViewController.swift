@@ -35,7 +35,6 @@ class RemindersViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         loadItems()
         
         title = "Reminders"
@@ -144,7 +143,8 @@ extension RemindersViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        tableView.reloadRows(at: [indexPath], with: .automatic)
+
+        self.navigationController?.pushViewController(ReminderPopup(parentVC: self, reminderItem: reminders[indexPath.row]), animated: true)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

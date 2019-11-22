@@ -11,13 +11,6 @@ import UIKit
 import ProgressHUD
 import CoreData
 
-// MARK: - UIProtocol
-protocol ReminderPopupUI {
-    func setupColors()
-    func setupViews()
-    func setupConstraints()
-}
-
 // MARK: - ReminderPopupViewController
 class ReminderPopup: UIViewController {
     
@@ -27,6 +20,7 @@ class ReminderPopup: UIViewController {
     var choicesAsEnum = [RemindMe]()
     
     var itemToAdd = ReminderItem()
+    var itemToEdit = ReminderItem()
     
     let titleCard = UIView()
     let titleTextField = UITextField()
@@ -52,24 +46,29 @@ class ReminderPopup: UIViewController {
     
     convenience init(parentVC: RemindersViewController) {
         self.init(nibName: nil, bundle: nil)
-        
         self.parentVC = parentVC
-        
-        title = "Add New Reminder"
-        
-        self.edgesForExtendedLayout = []
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
-        view.addGestureRecognizer(tapGesture)
         
         setupChoices()
         setupColors()
         setupViews()
         setupConstraints()
     }
+
+    convenience init(parentVC: RemindersViewController, reminderItem: ReminderItem) {
+        self.init(nibName: nil, bundle: nil)
+        self.parentVC = parentVC
+
+        itemToEdit = reminderItem
+    }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nil, bundle: nil)
+
+        title = "Add New Reminder"
+        self.edgesForExtendedLayout = []
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tapGesture)
     }
     
     required init?(coder: NSCoder) {
@@ -101,8 +100,8 @@ class ReminderPopup: UIViewController {
     }
 }
 
-// MARK: - ReminderUI Extension
-extension ReminderPopup: ReminderPopupUI {
+// MARK: - UI Extension
+extension ReminderPopup {
     func setupColors() {
         view.backgroundColor = UIStyle.cellSpaceBackgroundColor
         
@@ -137,7 +136,6 @@ extension ReminderPopup: ReminderPopupUI {
     }
     
     func setupViews() {
-        
         titleCard.layer.cornerRadius = 8.0
         titleCard.clipsToBounds = true
         titleTextField.attributedPlaceholder = NSAttributedString(string: "Title", attributes: [NSAttributedString.Key.foregroundColor: UIStyle.separatorColor])
@@ -149,7 +147,7 @@ extension ReminderPopup: ReminderPopupUI {
         
         dateTimeLabel.text = "Event Date/Time:"
         dateTimeLabel.textAlignment = .left
-        
+
         dateTimePicker.date = Date()
         dateTimePicker.minimumDate = Date()
         dateTimePicker.maximumDate = Date.distantFuture
